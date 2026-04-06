@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuQ - 个人文件存储</title>
-    <!-- 引入思源宋体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
@@ -18,648 +17,273 @@
             --border-color: #dddddd;
             --secondary-text-color: #666666;
             --button-hover-bg: #f5f5f5;
+            --modal-backdrop: rgba(0, 0, 0, 0.6);
+            --delete-color: #d9534f;
         }
-
         /* --- 全局与基础样式 --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-size: 16px;
-            line-height: 1.7;
-            padding: 20px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); font-size: 16px; line-height: 1.7; padding: 20px; }
+        .hidden { display: none !important; }
+        button { font-family: var(--font-family); padding: 10px 15px; font-size: 16px; background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--text-color); border-radius: 4px; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+        button:hover { background-color: var(--text-color); color: var(--bg-color); }
+        button:disabled { background-color: #f0f0f0; color: #aaa; border-color: #ddd; cursor: not-allowed; }
+        input[type="text"], input[type="number"], input[type="file"] { font-family: var(--font-family); width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 15px; font-size: 16px; }
+        textarea { width: 100%; min-height: 150px; padding: 10px; font-family: var(--font-family); font-size: 16px; line-height: 1.7; border: 1px solid var(--border-color); border-radius: 4px; resize: vertical; }
 
         /* --- 登录界面 --- */
-        #login-screen {
-            max-width: 400px;
-            margin: 10vh auto 0;
-            text-align: center;
-        }
-
-        #login-screen h1 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        
-        #login-screen p {
-            font-size: 14px;
-            color: var(--secondary-text-color);
-            margin-bottom: 40px;
-        }
-
-        input[type="text"],
-        input[type="number"] {
-            font-family: var(--font-family);
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            background: var(--bg-color);
-            color: var(--text-color);
-        }
-        input:focus {
-            outline: none;
-            border-color: #000;
-        }
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
-
-        button {
-            font-family: var(--font-family);
-            padding: 12px 20px;
-            font-size: 16px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--text-color);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        button:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-        }
-        
-        #login-button {
-            width: 100%;
-        }
+        #login-screen { max-width: 400px; margin: 15vh auto 0; text-align: center; }
+        #login-screen h1 { font-size: 48px; font-weight: 600; margin-bottom: 20px; }
+        #login-screen p { font-size: 14px; color: var(--secondary-text-color); margin-bottom: 40px; }
+        #login-button { width: 100%; }
 
         /* --- 主界面 --- */
-        #main-screen {
-            max-width: 800px;
-            margin: 0 auto;
-            display: none; /* 默认隐藏 */
-        }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            font-size: 36px;
-            font-weight: 600;
-        }
-
-        #search-box {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        
-        /* --- 添加新项目区域 --- */
-        #add-item-section {
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 40px;
-        }
-        
-        #add-item-section h2 {
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: var(--secondary-text-color);
-        }
-
-        #add-item-section input[type="file"] {
-            border: none;
-            padding: 0;
-        }
-
-        #preview-area {
-            margin-top: 15px;
-            padding: 10px;
-            border: 1px dashed var(--border-color);
-            border-radius: 4px;
-            display: none;
-        }
-        
-        #preview-content {
-            max-height: 150px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-            font-size: 14px;
-            color: var(--secondary-text-color);
-            background: #fafafa;
-            padding: 10px;
-        }
+        #main-screen { max-width: 800px; margin: 0 auto; }
+        header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px; gap: 15px; }
+        .header-buttons { display: flex; gap: 10px; }
+        .section-box { border: 1px solid var(--border-color); padding: 20px; margin-bottom: 30px; border-radius: 4px; }
         
         /* --- 文件列表 --- */
-        #file-list-container {
-            margin-top: 20px;
-        }
+        .file-item { border: 1px solid var(--border-color); border-radius: 4px; padding: 20px; margin-bottom: 20px; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .item-header h3 { font-weight: 600; margin: 0; }
+        .item-header .timestamp { font-size: 12px; color: var(--secondary-text-color); }
+        .item-content { white-space: pre-wrap; word-break: break-all; padding: 15px; background-color: #fafafa; border-radius: 4px; margin-bottom: 15px; }
+        .item-edit-area textarea { min-height: 200px; }
+        .item-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .text-tag { display: inline-block; background-color: #f0f0f0; padding: 3px 8px; border-radius: 12px; font-size: 13px; margin-right: 8px; margin-bottom: 8px; }
+        .delete-button { border-color: var(--delete-color); color: var(--delete-color); }
+        .delete-button:hover { background-color: var(--delete-color); color: white; }
 
-        .file-item {
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        .file-item h3 {
-            font-weight: 600;
-            margin-bottom: 10px;
-            padding-right: 40px; /* 为删除按钮留出空间 */
-        }
-
-        .item-content-wrapper {
-            max-height: 100px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-
-        .item-content-wrapper.expanded {
-            max-height: none;
-        }
-
-        .item-content-wrapper::after {
-            content: '... [点击展开]';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background: var(--bg-color);
-            padding: 0 5px;
-            font-size: 14px;
-            color: var(--secondary-text-color);
-        }
-
-        .item-content-wrapper.expanded::after {
-            content: '[点击收起]';
-        }
-
-        .item-content {
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .item-tags {
-            margin-bottom: 15px;
-        }
-
-        .text-tag {
-            display: inline-block;
-            background-color: #f0f0f0;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 13px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-        
-        .image-tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .image-tag {
-            max-width: 100px;
-            max-height: 100px;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-        }
-
-        .item-actions {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .delete-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            border: none;
-            background: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #aaa;
-            padding: 0; /* 修正按钮样式 */
-        }
-        .delete-btn:hover {
-            color: #000;
-            background: none; /* 修正按钮样式 */
-        }
+        /* --- 弹窗 Modal (通用) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-backdrop); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: var(--bg-color); padding: 30px; border-radius: 4px; width: 100%; max-width: 500px; border: 1px solid var(--text-color); }
+        .modal-content h2 { margin-top: 0; font-weight: 600; margin-bottom: 10px; text-align: center; }
+        .modal-content p { margin-bottom: 20px; }
+        #device-list { list-style: none; padding: 0; margin-bottom: 20px; }
+        #device-list li { display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 10px; }
+        .modal-footer { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <!-- 登录界面 -->
     <div id="login-screen">
-        <h1>QuQ</h1>
-        <p>个人文件存储库</p>
-        <div class="input-group">
-            <input type="number" id="qq-input" placeholder="输入QQ号">
-        </div>
-        <div class="input-group">
-            <input type="text" id="code-input" placeholder="输入激活码">
-        </div>
-        <!-- 移除了 onclick 事件 -->
-        <button id="login-button">登录</button>
+        <!-- 内容与之前版本相同 -->
+        <h1>QuQ</h1><p>个人文件存储库</p><div class="input-group"><input type="number" id="qq-input" placeholder="输入QQ号"></div><div class="input-group"><input type="text" id="code-input" placeholder="输入激活码"></div><button id="login-button">登录</button>
     </div>
 
     <!-- 主界面 -->
-    <div id="main-screen">
+    <div id="main-screen" class="hidden">
         <header>
-            <h1>QuQ</h1>
-            <!-- 移除了 onclick 事件 -->
-            <button id="logout-button">登出</button>
+            <h2>QuQ 个人空间</h2>
+            <div class="header-buttons">
+                <button id="show-notice-button">查看公告</button>
+                <button id="settings-button">设备管理</button>
+                <button id="logout-button">登出</button>
+            </div>
         </header>
 
-        <div id="search-box">
-            <input type="text" id="search-input" placeholder="按文字标签搜索...">
+        <!-- 上传文件区域 -->
+        <div id="upload-section" class="section-box">
+            <h3>从文件导入</h3>
+            <p style="font-size:14px; color:#666; margin-bottom:15px;">支持 .docx, .txt, .json。内容将填充到下方“添加新项目”中供您修改。</p>
+            <input type="file" id="file-upload" accept=".docx,.txt,.json">
         </div>
-        
-        <div id="add-item-section">
-            <h2>添加新项目</h2>
-            <div class="input-group">
-                <label for="file-upload">1. 上传文件 (.docx, .txt, .json)</label>
-                <input type="file" id="file-upload" accept=".docx,.txt,.json">
-            </div>
 
-            <div id="preview-area">
-                <p>文件内容预览:</p>
-                <div id="preview-content"></div>
-            </div>
-            
-            <div class="input-group">
-                <label for="text-tags-input">2. 添加文字备注/标签 (用逗号,隔开)</label>
-                <input type="text" id="text-tags-input" placeholder="例如: 笔记, 项目A, 重要">
-            </div>
-
-            <div class="input-group">
-                <label for="image-tags-upload">3. (可选) 上传图片备注</label>
-                <input type="file" id="image-tags-upload" accept="image/*" multiple>
-            </div>
-
-            <!-- 移除了 onclick 事件 -->
+        <div id="add-item-section" class="section-box">
+            <h3>添加新项目</h3>
+            <input type="text" id="add-title" placeholder="标题">
+            <textarea id="add-content" placeholder="内容..."></textarea>
+            <input type="text" id="add-tags" placeholder="标签 (用逗号,隔开)">
             <button id="add-item-button">保存新项目</button>
         </div>
         
         <div id="file-list-container">
-            <h2>已存项目</h2>
+            <h3>已存项目</h3>
             <div id="file-list"></div>
         </div>
-
+    </div>
+    
+    <!-- 设备管理弹窗 -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <!-- 内容与之前版本相同 -->
+        <div class="modal-content"><h2>设备管理</h2><p>您最多可授权2台设备。主设备(第1台)有权移除次设备。</p><ul id="device-list"></ul><div class="modal-footer"><button onclick="document.getElementById('settings-modal').classList.add('hidden')">关闭</button></div></div>
+    </div>
+    
+    <!-- 公告弹窗 -->
+    <div id="notice-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>用户使用协议</h2>
+            <p>1. 本产品仅供个人学习和使用，数据存储于用户本地浏览器，开发者不收集任何数据。</p>
+            <p>2. 用户需自行妥善保管激活码，并对个人数据安全负责。清理浏览器缓存可能导致数据丢失。</p>
+            <p>3. 禁止将本产品用于任何非法用途。禁止对本产品进行二次修改、分发或销售。</p>
+            <p>4. 任何因使用本产品导致的风险和责任由用户自行承担。</p>
+            <div class="modal-footer">
+                <button id="close-notice-button" disabled>关闭 (<span id="countdown">5</span>)</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-    // 使用 DOMContentLoaded 来确保所有HTML元素都加载完毕再执行脚本
-    document.addEventListener('DOMContentLoaded', function() {
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
-        const DOM = {
-            loginScreen: document.getElementById('login-screen'),
-            mainScreen: document.getElementById('main-screen'),
-            qqInput: document.getElementById('qq-input'),
-            codeInput: document.getElementById('code-input'),
-            loginButton: document.getElementById('login-button'),
-            logoutButton: document.getElementById('logout-button'),
-            
-            fileUpload: document.getElementById('file-upload'),
-            previewArea: document.getElementById('preview-area'),
-            previewContent: document.getElementById('preview-content'),
-            textTagsInput: document.getElementById('text-tags-input'),
-            imageTagsUpload: document.getElementById('image-tags-upload'),
-            addItemButton: document.getElementById('add-item-button'),
+    // --- 全局变量和DOM引用 ---
+    const MAX_DEVICES = 2;
+    const NOTICE_VERSION = "1.0"; // 公告版本号
+    let appData = null;
+    let currentDeviceId = getOrCreateDeviceId();
+    let countdownInterval = null;
 
-            searchInput: document.getElementById('search-input'),
-            fileList: document.getElementById('file-list'),
-        };
+    const DOM = {
+        loginScreen: document.getElementById('login-screen'),
+        mainScreen: document.getElementById('main-screen'),
+        qqInput: document.getElementById('qq-input'),
+        codeInput: document.getElementById('code-input'),
+        loginButton: document.getElementById('login-button'),
+        logoutButton: document.getElementById('logout-button'),
+        settingsButton: document.getElementById('settings-button'),
+        addItemButton: document.getElementById('add-item-button'),
+        fileUpload: document.getElementById('file-upload'),
+        fileList: document.getElementById('file-list'),
+        settingsModal: document.getElementById('settings-modal'),
+        deviceList: document.getElementById('device-list'),
+        addTitle: document.getElementById('add-title'),
+        addContent: document.getElementById('add-content'),
+        addTags: document.getElementById('add-tags'),
+        // 公告相关
+        noticeModal: document.getElementById('notice-modal'),
+        closeNoticeButton: document.getElementById('close-notice-button'),
+        showNoticeButton: document.getElementById('show-notice-button'),
+        countdownSpan: document.getElementById('countdown'),
+    };
 
-        let fileData = {
-            name: null,
-            content: null
-        };
-        let imageTagsData = [];
-        let allItems = [];
+    // --- 核心验证逻辑 ---
+    // generateCodeForQQ 函数与之前版本完全相同，此处省略以保持简洁
+    function generateCodeForQQ(qq) { const salt = "HONEY-STUDIO-V2-SECRET-20260309"; const baseString = `${qq}#${salt}`; let hash = 0; for (let i = 0; i < baseString.length; i++) { const char = baseString.charCodeAt(i); hash = ((hash << 7) - hash) + char; hash |= 0; } hash = Math.abs(hash); const hexHash = hash.toString(16).toUpperCase(); const qqInfo = `${qq.length}${qq.slice(-2)}`; const finalCode = `V2-${qqInfo}-${hexHash}`.substring(0, 16); return finalCode; }
+    
+    // --- 登录与认证 ---
+    // handleLogin, loginSuccess, handleLogout, checkLogin 函数与之前版本完全相同
+    function handleLogin() { const qq = DOM.qqInput.value.trim(); const code = DOM.codeInput.value.trim(); if (!qq || !code) { alert('请输入QQ号和激活码。'); return; } const expectedCode = generateCodeForQQ(qq); if (code === expectedCode) { loadAppData(); const isDeviceRegistered = appData.devices.some(d => d.id === currentDeviceId); const isDeviceSlotAvailable = appData.devices.length < MAX_DEVICES; if (isDeviceRegistered) { loginSuccess(qq, code); } else if (isDeviceSlotAvailable) { if (confirm("这是一个新的设备，要将它添加为授权设备吗？")) { appData.devices.push({ id: currentDeviceId, name: getDeviceName(), addedAt: new Date().toLocaleString() }); saveAppData(); loginSuccess(qq, code); } } else { alert("登录失败：授权设备已满 (2/2)。请在主设备上移除一个次设备后重试。"); } } else { alert('QQ号或激活码错误。'); } }
+    function loginSuccess(qq, code) { localStorage.setItem('quq_user', JSON.stringify({ qq, code })); showMainScreen(); checkAndShowNotice(); }
+    function handleLogout() { if (confirm("确定要登出吗？")) { localStorage.removeItem('quq_user'); window.location.reload(); } }
+    function checkLogin() { const userData = localStorage.getItem('quq_user'); if (userData) { try { const { qq, code } = JSON.parse(userData); if (qq && code && code === generateCodeForQQ(qq)) { loadAppData(); const isDeviceAuthorized = appData.devices.some(d => d.id === currentDeviceId); if (isDeviceAuthorized) { showMainScreen(); return; } else { localStorage.removeItem('quq_user'); alert("您的设备已被主设备移除，请重新登录。"); } } } catch (e) {} } DOM.loginScreen.classList.remove('hidden'); DOM.mainScreen.classList.add('hidden'); }
 
-        // --- 核心验证逻辑 (必须与 admin.html 完全一致) ---
-        function generateCodeForQQ(qq) {
-            const salt = "HONEY-STUDIO-V2-SECRET-20260309";
-            const baseString = `${qq}#${salt}`;
-            let hash = 0;
-            for (let i = 0; i < baseString.length; i++) {
-                const char = baseString.charCodeAt(i);
-                hash = ((hash << 7) - hash) + char;
-                hash |= 0;
-            }
-            hash = Math.abs(hash);
-            const hexHash = hash.toString(16).toUpperCase();
-            const qqInfo = `${qq.length}${qq.slice(-2)}`;
-            const finalCode = `V2-${qqInfo}-${hexHash}`.substring(0, 16);
-            return finalCode;
-        }
+    function showMainScreen() {
+        DOM.loginScreen.classList.add('hidden');
+        DOM.mainScreen.classList.remove('hidden');
+        renderFileList();
+    }
 
-        // --- 登录与认证 ---
-        function handleLogin() {
-            const qq = DOM.qqInput.value.trim();
-            const code = DOM.codeInput.value.trim();
-            if (!qq || !code) {
-                alert('请输入QQ号和激活码。');
-                return;
-            }
-            
-            const expectedCode = generateCodeForQQ(qq);
-            if (code === expectedCode) {
-                localStorage.setItem('quq_user', JSON.stringify({ qq, code }));
-                showMainScreen();
-            } else {
-                alert('QQ号或激活码错误。');
-            }
-        }
+    // --- 数据存储 ---
+    // loadAppData, saveAppData 函数与之前版本完全相同
+    function loadAppData() { const storedData = localStorage.getItem('quq_app_data'); if (storedData) { appData = JSON.parse(storedData); } else { appData = { devices: [], items: [] }; } }
+    function saveAppData() { localStorage.setItem('quq_app_data', JSON.stringify(appData)); }
 
-        function handleLogout() {
-            if (confirm('确定要登出吗？本地数据将保留，但需要重新登录。')) {
-                localStorage.removeItem('quq_user');
-                window.location.reload();
-            }
-        }
-        
-        function checkLogin() {
-            const userData = localStorage.getItem('quq_user');
-            if (userData) {
-                try {
-                    const { qq, code } = JSON.parse(userData);
-                    if (qq && code && code === generateCodeForQQ(qq)) {
-                        showMainScreen();
-                        return;
-                    }
-                } catch (e) {
-                    // 解析失败，忽略
-                }
-            }
-            DOM.loginScreen.style.display = 'block';
-            DOM.mainScreen.style.display = 'none';
-        }
+    // --- 文件导入功能 ---
+    DOM.fileUpload.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
 
-        function showMainScreen() {
-            DOM.loginScreen.style.display = 'none';
-            DOM.mainScreen.style.display = 'block';
-            loadAllItems();
-        }
+        const reader = new FileReader();
+        const extension = file.name.split('.').pop().toLowerCase();
 
-        // --- 文件处理 ---
-        function handleFileChange(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        DOM.addTitle.value = file.name; // 自动填充标题
 
-            fileData.name = file.name;
-            const reader = new FileReader();
-            
-            const extension = file.name.split('.').pop().toLowerCase();
-            
-            if (extension === 'txt' || extension === 'json') {
-                reader.onload = (e) => {
-                    fileData.content = e.target.result;
-                    showPreview(fileData.content);
-                };
-                reader.readAsText(file);
-            } else if (extension === 'docx') {
-                if(typeof mammoth === 'undefined') {
-                    alert('解析 .docx 的组件加载失败，请检查网络连接或刷新页面。');
-                    return;
-                }
-                reader.onload = (e) => {
-                    mammoth.extractRawText({ arrayBuffer: e.target.result })
-                        .then(result => {
-                            fileData.content = result.value;
-                            showPreview(fileData.content);
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            alert('解析DOCX文件失败。');
-                        });
-                };
-                reader.readAsArrayBuffer(file);
-            } else {
-                alert('不支持的文件类型。请选择 .docx, .txt 或 .json');
-                resetAddForm();
-            }
-        }
-
-        function showPreview(content) {
-            DOM.previewContent.textContent = content;
-            DOM.previewArea.style.display = 'block';
-        }
-
-        // --- 图片标签处理 ---
-        function handleImageTagsChange(event) {
-            const files = event.target.files;
-            imageTagsData = []; // 重置
-            if (files.length > 5) {
-                alert("一次最多上传5张图片备注。");
-                DOM.imageTagsUpload.value = ''; // 清空选择
-                return;
-            }
-            if (files.length === 0) return;
-
-            let processedImages = 0;
-            for (const file of files) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    imageTagsData.push(e.target.result); // Base64 string
-                    processedImages++;
-                    if(processedImages === files.length) {
-                        alert(`已选择 ${files.length} 张图片。`);
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // --- 数据增删改查 ---
-        function handleAddItem() {
-            if (!fileData.content) {
-                alert('请先上传并解析一个文件。');
-                return;
-            }
-
-            const textTags = DOM.textTagsInput.value.trim()
-                .split(/,|，/)
-                .map(tag => tag.trim())
-                .filter(tag => tag);
-                
-            const newItem = {
-                id: Date.now(),
-                fileName: fileData.name,
-                content: fileData.content,
-                textTags: textTags,
-                imageTags: imageTagsData,
-                createdAt: new Date().toLocaleString()
+        if (extension === 'txt' || extension === 'json') {
+            reader.onload = (e) => {
+                DOM.addContent.value = e.target.result;
             };
-
-            allItems.unshift(newItem);
-            saveAllItems();
-            renderFileList(allItems);
-            resetAddForm();
-        }
-        
-        function handleDeleteItem(id) {
-            if (confirm('确定要删除这个项目吗？此操作无法撤销。')) {
-                allItems = allItems.filter(item => item.id !== id);
-                saveAllItems();
-                // 重新渲染当前视图（可能是搜索后的视图）
-                handleSearch();
-            }
-        }
-
-        function resetAddForm() {
-            DOM.fileUpload.value = '';
-            DOM.previewArea.style.display = 'none';
-            DOM.previewContent.textContent = '';
-            DOM.textTagsInput.value = '';
-            DOM.imageTagsUpload.value = '';
-            fileData = { name: null, content: null };
-            imageTagsData = [];
-        }
-
-        function loadAllItems() {
-            const storedItems = localStorage.getItem('quq_data');
-            allItems = storedItems ? JSON.parse(storedItems) : [];
-            renderFileList(allItems);
-        }
-
-        function saveAllItems() {
-            localStorage.setItem('quq_data', JSON.stringify(allItems));
-        }
-        
-        // --- 渲染与显示 ---
-        function renderFileList(itemsToRender) {
-            DOM.fileList.innerHTML = '';
-            if (itemsToRender.length === 0) {
-                DOM.fileList.innerHTML = '<p style="color: #666; text-align: center;">暂无项目。开始添加你的第一个吧！</p>';
+            reader.readAsText(file);
+        } else if (extension === 'docx') {
+            if (typeof mammoth === 'undefined') {
+                alert('解析 .docx 的组件加载失败，请检查网络连接或刷新页面。');
                 return;
             }
-            itemsToRender.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'file-item';
-                itemDiv.setAttribute('data-id', item.id); // 添加 data-id 属性
-                itemDiv.innerHTML = `
-                    <button class="delete-btn">&times;</button>
-                    <h3>${item.fileName} <span style="font-size: 12px; color: #666; font-weight: 400;">(${item.createdAt})</span></h3>
-                    
-                    <div class="item-tags">
-                        ${item.textTags.map(tag => `<span class="text-tag">${tag}</span>`).join('')}
-                    </div>
-                    
-                    <div class="image-tag-container">
-                        ${item.imageTags.map(imgData => `<img src="${imgData}" class="image-tag" alt="图片备注">`).join('')}
-                    </div>
-
-                    <div class="item-content-wrapper">
-                        <div class="item-content">${item.content}</div>
-                    </div>
-                    
-                    <div class="item-actions">
-                        <button class="copy-btn">复制文本</button>
-                    </div>
-                `;
-                DOM.fileList.appendChild(itemDiv);
-            });
+            reader.onload = (e) => {
+                mammoth.extractRawText({ arrayBuffer: e.target.result })
+                    .then(result => {
+                        DOM.addContent.value = result.value;
+                    })
+                    .catch(err => {
+                        alert('解析DOCX文件失败。');
+                        console.error(err);
+                    });
+            };
+            reader.readAsArrayBuffer(file);
+        } else {
+            alert('不支持的文件类型。');
+            DOM.addTitle.value = '';
         }
-        
-        function copyToClipboard(button, id) {
-            const item = allItems.find(i => i.id === id);
-            if (item) {
-                navigator.clipboard.writeText(item.content).then(() => {
-                    const originalText = button.textContent;
-                    button.textContent = '已复制!';
-                    setTimeout(() => { button.textContent = originalText; }, 2000);
-                }).catch(err => {
-                    alert('复制失败: ' + err);
-                });
-            }
-        }
-        
-        // --- 搜索 ---
-        function handleSearch() {
-            const searchTerm = DOM.searchInput.value.trim().toLowerCase();
-            if (!searchTerm) {
-                renderFileList(allItems);
-                return;
-            }
-            const filteredItems = allItems.filter(item => {
-                return item.textTags.some(tag => tag.toLowerCase().includes(searchTerm));
-            });
-            renderFileList(filteredItems);
-        }
-
-        // --- 全局事件委托 ---
-        DOM.fileList.addEventListener('click', function(e) {
-            const target = e.target;
-            const fileItem = target.closest('.file-item');
-            if (!fileItem) return;
-
-            const itemId = Number(fileItem.dataset.id);
-
-            // 删除按钮
-            if (target.classList.contains('delete-btn')) {
-                handleDeleteItem(itemId);
-            }
-            // 复制按钮
-            else if (target.classList.contains('copy-btn')) {
-                copyToClipboard(target, itemId);
-            }
-            // 展开/收起
-            else if (target.closest('.item-content-wrapper')) {
-                target.closest('.item-content-wrapper').classList.toggle('expanded');
-            }
-        });
-
-        // --- 绑定所有事件监听器 ---
-        DOM.loginButton.addEventListener('click', handleLogin);
-        DOM.logoutButton.addEventListener('click', handleLogout);
-        DOM.addItemButton.addEventListener('click', handleAddItem);
-        
-        DOM.fileUpload.addEventListener('change', handleFileChange);
-        DOM.imageTagsUpload.addEventListener('change', handleImageTagsChange);
-        
-        DOM.searchInput.addEventListener('input', handleSearch);
-
-        // --- 页面初始化 ---
-        checkLogin();
+        DOM.fileUpload.value = ''; // 清空选择，以便再次上传同名文件
     });
-    </script>
+
+
+    // --- 增删改查 ---
+    // handleAddItem, renderFileList, handleCopy, handleEdit, etc. 与之前版本逻辑基本相同
+    DOM.addItemButton.addEventListener('click', () => { const title = DOM.addTitle.value.trim(); const content = DOM.addContent.value.trim(); if (!title || !content) { alert("标题和内容不能为空！"); return; } const tags = DOM.addTags.value.split(',').map(t => t.trim()).filter(Boolean); const newItem = { id: Date.now(), title, content, tags, createdAt: new Date().toLocaleString() }; appData.items.unshift(newItem); saveAppData(); DOM.addTitle.value = ''; DOM.addContent.value = ''; DOM.addTags.value = ''; renderFileList(); });
+    function renderFileList() { DOM.fileList.innerHTML = ''; if (appData.items.length === 0) { DOM.fileList.innerHTML = '<p style="text-align:center; color:#999;">暂无项目</p>'; return; } appData.items.forEach(item => { const itemDiv = document.createElement('div'); itemDiv.className = 'file-item'; itemDiv.id = `item-${item.id}`; itemDiv.innerHTML = ` <div class="item-view"> <div class="item-header"> <h3>${escapeHTML(item.title)}</h3> <span class="timestamp">创建于: ${item.createdAt}</span> </div> <div class="item-tags">${item.tags.map(tag => `<span class="text-tag">${escapeHTML(tag)}</span>`).join('')}</div> <div class="item-content">${escapeHTML(item.content).replace(/\n/g, '<br>')}</div> <div class="item-actions"> <button onclick="handleCopy(${item.id})">复制内容</button> <button onclick="handleEdit(${item.id})">编辑</button> <button onclick="handleDelete(${item.id})" class="delete-button">删除</button> </div> </div> <div class="item-edit-area hidden"> <input type="text" value="${escapeHTML(item.title)}"> <textarea>${escapeHTML(item.content)}</textarea> <input type="text" value="${escapeHTML(item.tags.join(', '))}"><br><br> <div class="item-actions"> <button onclick="handleSaveChanges(${item.id})">保存修改</button> <button onclick="handleCancelEdit(${item.id})">取消</button> </div> </div> `; DOM.fileList.appendChild(itemDiv); }); }
+    window.handleCopy = function(id) { const item = appData.items.find(i => i.id === id); if (item) navigator.clipboard.writeText(item.content).then(() => alert("内容已复制到剪贴板！")).catch(err => alert("复制失败: " + err)); }
+    window.handleEdit = function(id) { document.querySelector(`#item-${id} .item-view`).classList.add('hidden'); document.querySelector(`#item-${id} .item-edit-area`).classList.remove('hidden'); }
+    window.handleCancelEdit = function(id) { document.querySelector(`#item-${id} .item-view`).classList.remove('hidden'); document.querySelector(`#item-${id} .item-edit-area`).classList.add('hidden'); }
+    window.handleSaveChanges = function(id) { const itemIndex = appData.items.findIndex(i => i.id === id); if (itemIndex === -1) return; const editArea = document.querySelector(`#item-${id} .item-edit-area`); appData.items[itemIndex].title = editArea.querySelector('input[type="text"]').value; appData.items[itemIndex].content = editArea.querySelector('textarea').value; appData.items[itemIndex].tags = editArea.querySelectorAll('input[type="text"]')[1].value.split(',').map(t => t.trim()).filter(Boolean); saveAppData(); renderFileList(); }
+    window.handleDelete = function(id) { if (confirm("确定要永久删除这个项目吗？")) { appData.items = appData.items.filter(i => i.id !== id); saveAppData(); renderFileList(); } }
+
+    // --- 设备管理 ---
+    // settingsButton, handleKickDevice 与之前版本相同
+    DOM.settingsButton.addEventListener('click', () => { DOM.deviceList.innerHTML = ''; const isUserOnPrimaryDevice = appData.devices.length > 0 && appData.devices[0].id === currentDeviceId; appData.devices.forEach((device, index) => { const li = document.createElement('li'); const isCurrent = device.id === currentDeviceId; let deviceHtml = `<span>设备 ${index + 1} ${isCurrent ? '<strong>(当前)</strong>' : ''}<br><small style="color:#999; font-size:12px;">${device.name}</small></span>`; if (isUserOnPrimaryDevice && index === 1) { deviceHtml += `<button onclick="handleKickDevice('${device.id}')" class="delete-button">移除此设备</button>`; } li.innerHTML = deviceHtml; DOM.deviceList.appendChild(li); }); DOM.settingsModal.classList.remove('hidden'); });
+    window.handleKickDevice = function(deviceIdToKick) { if (confirm("确定要移除这个设备吗？")) { appData.devices = appData.devices.filter(d => d.id !== deviceIdToKick); saveAppData(); DOM.settingsModal.classList.add('hidden'); alert("设备已移除！"); } }
+
+    // --- 公告弹窗逻辑 ---
+    function showNoticeModal(isFirstTime) {
+        DOM.noticeModal.classList.remove('hidden');
+        if (isFirstTime) {
+            let count = 5;
+            DOM.countdownSpan.textContent = count;
+            DOM.closeNoticeButton.disabled = true;
+            countdownInterval = setInterval(() => {
+                count--;
+                DOM.countdownSpan.textContent = count;
+                if (count <= 0) {
+                    clearInterval(countdownInterval);
+                    DOM.closeNoticeButton.disabled = false;
+                    DOM.closeNoticeButton.textContent = '我已阅读并同意';
+                }
+            }, 1000);
+        } else {
+            // 如果不是首次，直接可关闭
+            DOM.closeNoticeButton.disabled = false;
+            DOM.closeNoticeButton.textContent = '关闭';
+            DOM.countdownSpan.parentElement.innerHTML = '关闭';
+        }
+    }
+    
+    function checkAndShowNotice() {
+        const lastNoticeVersion = localStorage.getItem('quq_notice_read');
+        if (lastNoticeVersion !== NOTICE_VERSION) {
+            showNoticeModal(true);
+        }
+    }
+
+    DOM.closeNoticeButton.addEventListener('click', () => {
+        DOM.noticeModal.classList.add('hidden');
+        localStorage.setItem('quq_notice_read', NOTICE_VERSION);
+        if (countdownInterval) clearInterval(countdownInterval);
+    });
+    
+    DOM.showNoticeButton.addEventListener('click', () => {
+        showNoticeModal(false);
+    });
+
+    // --- 辅助函数 ---
+    function getOrCreateDeviceId() { let deviceId = localStorage.getItem('quq_device_id'); if (!deviceId) { deviceId = 'device_' + Date.now() + Math.random().toString(36).substring(2, 9); localStorage.setItem('quq_device_id', deviceId); } return deviceId; }
+    function getDeviceName() { return `${navigator.vendor || 'Browser'} on ${navigator.platform || 'Platform'}`; }
+    function escapeHTML(str) { const p = document.createElement("p"); p.textContent = str; return p.innerHTML; }
+    
+    // --- 绑定全局事件与初始化 ---
+    DOM.loginButton.addEventListener('click', handleLogin);
+    DOM.logoutButton.addEventListener('click', handleLogout);
+    checkLogin();
+});
+</script>
 </body>
 </html>
